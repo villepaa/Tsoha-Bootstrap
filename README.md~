@@ -11,7 +11,7 @@ Yleisiä linkkejä:
 
 * [Linkki työntekijälistaus sivulle](http://villepaa.users.cs.helsinki.fi/tuntilista/employees)
 
-* [Linkki työntekijämuokkaus sivulle](http://villepaa.users.cs.helsinki.fi/tuntilista/editEmp)
+* [Linkki työntekijämuokkaus sivulle](http://villepaa.users.cs.helsinki.fi/tuntilista/editEmployee)
 
 * [Linkki kirjautumissivulle](http://villepaa.users.cs.helsinki.fi/tuntilista/login)
 

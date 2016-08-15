@@ -1,32 +1,13 @@
-
-
-
-CREATE TABLE Week(
-    week_number INTEGER PRIMARY KEY
-);
-
 CREATE TABLE PlanBlock (
-    tunnus varchar PRIMARY KEY
+    id varchar PRIMARY KEY
     
-);
-
-CREATE TABLE Dates(
-    id Date,
-    week_number INTEGER REFERENCES Week(week_number),
-    PRIMARY KEY(id, week_number) 
-);
-
-CREATE TABLE Weeks(
-    block_tunnus varchar REFERENCES PlanBlock(tunnus),
-    week_number INTEGER REFERENCES Week(week_number),
-    PRIMARY KEY(block_tunnus, week_number)
 );
 
 CREATE TABLE Employee(
    
     id INTEGER PRIMARY KEY NOT NULL,
-    forename varchar(50) NOT NULL,
-    surname varchar(50) NOT NULL,
+    etunimi varchar(50) NOT NULL,
+    sukunimi varchar(50) NOT NULL,
     osoite varchar(100),
     puh varchar (20)
 );
@@ -47,11 +28,11 @@ CREATE TABLE Task(
 
 CREATE TABLE Plan(
     employee_id INTEGER REFERENCES Employee(id),
-    task_id varchar  REFERENCES Task(id),
+    task_id varchar REFERENCES Task(id),
     day_of_task Date,
-    planBlock_id varchar REFERENCES PlanBlock(tunnus),
+    planBlock_id varchar REFERENCES PlanBlock(id),
     planner_id INTEGER REFERENCES Planner(id),
-    PRIMARY KEY(employee_id,task_id,day_of_task)
+    PRIMARY KEY(employee_id,day_of_task)
     
 );
 

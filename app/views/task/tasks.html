@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>TYÖVUOROT</h1>
+
+  <p>
+    <a href="{{base_path}}/tasks/new" class="btn btn-success">Lisää työvuoro</a>
+  </p>
+
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Tunnus</th>
+        <th>Alkuaika</th>
+        <th>Loppuaika</th>
+        <th>Kesto</th> 
+      </tr>
+    </thead>
+
+    <tbody>
+        {% for task in tasks %} 
+          <tr>
+            <td><a href="{{base_path}}/tasks/{{task.id}}">{{task.id}}</a></td></td>
+            <td>{{task.alkuaika}}</td>
+            <td>{{task.loppuaika}}</td>
+            <td>{{task.kesto}}</td>
+            <th><a class="btn btn-default btn-sm" href="{{base_path}}/tasks/{{task.id}}">Muokkaa</a></th>
+          </tr>
+        {% endfor %} 
+    </tbody>
+  </table>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="col-md-6">
+    
+    {% if message %}
+        <h1>{{message}}</h1>
+    {% else %}
+        <h1>Muokkaa työtekijän tietoja</h1>
+    {% endif %}  
+    
+    <form>
+
+        <div class="form-group">
+            <label>Henkilönumero</label>
+            <input type="text"  class="form-control" value="{{emp.id}}" disabled>
+        </div>
+
+        <div class="form-group">
+            <label>Etunimi</label>
+            <input type="text" class="form-control" value="{{emp.etunimi}}">
+        </div>
+        <div class="form-group">
+            <label>Sukunimi</label>
+            <input type="text" class="form-control" value="{{emp.sukunimi}}">
+        </div>
+        <div class="form-group">
+            <label>Osoite</label>
+            <input type="text" class="form-control" value="{{emp.osoite}}">
+        </div>
+        <div class="form-group">
+            <label>Puhelin</label>
+            <input type="text" class="form-control" value="{{emp.puh}}">
+        </div>
+
+        {% if message %}
+            <div class="form-group">
+
+                <a href="{{base_path}}/employees" class="btn btn-success">OK</a>
+            </div>
+
+        {% else %}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Tallenna</button>
+                <a href="{{base_path}}/employees" class="btn btn-danger">Peruuta</a>
+            </div>
+        {% endif %}
+    </form>
+  
+</div>  
+{% endblock %}

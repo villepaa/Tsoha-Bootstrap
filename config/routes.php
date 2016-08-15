@@ -1,15 +1,32 @@
 <?php
 
-    $routes->get('/', function() {
-        HelloWorldController::index();
+    
+    $routes->post('/tasks', function(){
+        Task_controller::store();
     });
-
+    
+     $routes->post('/employees', function(){
+         Employee_controller::store();
+    });
+    
+    $routes->post('/plan',function(){
+        Plan_controller::store();
+    });
+    
     $routes->get('/hiekkalaatikko', function() {
         HelloWorldController::sandbox();
     });
 
-    $routes->get('/login', function() {
-        HelloWorldController::login();
+    $routes->get('/tasks', function() {
+        Task_controller::index();
+    });
+    
+    $routes->get('/tasks/new', function() {
+        Task_controller::create();
+    });
+    
+     $routes->get('/tasks/:id', function($id) {
+        Task_controller::show($id);
     });
 
     $routes->get('/', function() {
@@ -21,21 +38,27 @@
     });
     
     $routes->get('/employees', function() {
-        HelloWorldController::employee_list();
+        Employee_controller::index();
     });
     
-    $routes->get('/editEmployee', function() {
-        HelloWorldController::edit_emp();
+    $routes->get('/employees/new', function() {
+        Employee_controller::create();
     });
     
-    $routes->get('/duties', function() {
-        HelloWorldController::duty_list();
+    $routes->get('/employees/:id', function($id) {
+        Employee_controller::show($id);
     });
     
+    
+   
     $routes->get('/plan',function(){
-        HelloWorldController::plan();
+        Plan_controller::index();
     });
     
-    $routes->get('/etusivu',function(){
-        HelloWorldController::front_page();
+     $routes->get('/plan/:block_id',function($block_id){
+        Plan_controller::show($block_id);
     });
+    
+    
+    
+   
