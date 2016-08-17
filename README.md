@@ -7,9 +7,9 @@ Yleisiä linkkejä:
 * [Linkki dokumentaatiooni](https://github.com/villepaa/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf)
 
 
-* [Linkki työvuorolistaus sivulle, (3. viikon palautus)](http://villepaa.users.cs.helsinki.fi/tuntilista/tasks)
+* [Käyttäjätunnus](Ben Planner)
 
-* [Linkki työntekijälistaus sivulle, (3. viikon palautus)](http://villepaa.users.cs.helsinki.fi/tuntilista/employees)
+* [Salasana](setä1)
 
 
 

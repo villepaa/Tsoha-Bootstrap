@@ -8,24 +8,24 @@
             
               <div class="form-group">
                   <label>Tunnus</label>
-                  <input type="text" name="id" class="form-control" value="">
+                  <input type="text" name="id" class="form-control" value="{{attr.id}}">
               </div>
 
               <div class="form-group">
                 <label>Alkuaika</label>
-                <input type="text" name="alkuaika" class="form-control" value="">
+                <input type="text" name="alkuaika" class="form-control" value="{{attr.alkuaika}}">
               </div>
               <div class="form-group">
                 <label>Loppuaika</label>
-                <input type="text" name="loppuaika" class="form-control" value="">
+                <input type="text" name="loppuaika" class="form-control" value="{{attr.loppuaika}}">
               </div>
               <div class="form-group">
                 <label>Kesto</label>
-                <input type="text" name="kesto" class="form-control" value="">
+                <input type="text" name="kesto" class="form-control" value="{{attr.kesto}}">
               </div>
               <div class="form-group">
                 <label>Lisätietoja</label>
-                <input type="text" name="tietoja" class="form-control" value="">
+                <input type="text" name="tietoja" class="form-control" value="{{tietoja}}">
               </div>
 
               <div class="form-group">
@@ -34,6 +34,16 @@
               </div>
             
         </form>
+  
+        {% if errors %}
+            <div class="alert alert-danger">
+                <ul>
+                    {% for error in errors %}
+                        <li>{{error}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
   
 </div>  
 {% endblock %}

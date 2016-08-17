@@ -6,10 +6,11 @@ class Block extends BaseModel{
     
     public function construct($attributes){
         parent::__construct($attributes);
+        $this->validators = array();
     }
     
     public static function all(){
-        $query = DB::connection()->prepare('SELECT * FROM PlanBlock');
+        $query = DB::connection()->prepare('SELECT DISTINCT planblock_id FROM Plan');
          
         $query->execute();
     
@@ -17,21 +18,13 @@ class Block extends BaseModel{
         $blocks = array();
         
     
-    foreach($rows as $row){
-      
-      $blocks[] = new Block(array('id' => $row['id']));
-    }
+        foreach($rows as $row){
 
-    return $blocks;
-    }
-    
-    public function save(){
-    
-        $query = DB::connection()->prepare('INSERT INTO PlanBlock (id) VALUES (:id)');
+          $blocks[] = $row['planblock_id'];
+        }
 
-        $query->execute(array('id' => $this->id));
+        return $blocks;
+    }
     
    
-      }
-    
 }

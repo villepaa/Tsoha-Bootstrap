@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h1>Tervetuloa {{user_logged_in.username}}</h1>
+    {% if user_logged_in %}
+        <div class="container">
+            <h3>Valitse toiminto:</h3> 
+
+            <br>
+
+            <div class="dropdown">   
+
+                 <button class="btn btn-lg dropdown-toggle" type="button" data-toggle="dropdown" >
+                    Toiminnot
+                    <span class="caret"></span>
+                </button>
+
+                <ul class="dropdown-menu">
+                     <li><a class="dropdown-item" href="{{base_path}}/employees">Työntekijät</a></li>
+                    <li><a class="dropdown-item" href="{{base_path}}/tasks">Työvuorot</a></li>
+                    <li><a class="dropdown-item"href="{{base_path}}/plan">Suunnitelma</li>
+                </ul>
+
+
+            </div>
+        </div>
+    {% else %}
+        <p><a href="{{base_path}}/login">Kirjaudu sisään</a> muokataksesi tietoja tai selaa valmiita työvuorolistoja.</p>
+
+
+    <div class="container">
+        <h3>Selaa työvuorolistoja:</h3> 
+
+        <br>
+
+        <div class="dropdown">   
+
+             <button class="btn btn-lg dropdown-toggle" type="button" data-toggle="dropdown" >
+                Työvuorolistat
+                <span class="caret"></span>
+            </button>
+
+            <ul class="dropdown-menu">
+                {% for block in blocks %}
+                    <li><a class="dropdown-item" href="{{base_path}}/plan/{{block}}">{{block}}</a></li>
+                    
+                {% endfor %}    
+            </ul>
+
+
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

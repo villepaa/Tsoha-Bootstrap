@@ -1,8 +1,3 @@
-CREATE TABLE PlanBlock (
-    id varchar PRIMARY KEY
-    
-);
-
 CREATE TABLE Employee(
    
     id INTEGER PRIMARY KEY NOT NULL,
@@ -27,24 +22,24 @@ CREATE TABLE Task(
 );
 
 CREATE TABLE Plan(
-    employee_id INTEGER REFERENCES Employee(id),
-    task_id varchar REFERENCES Task(id),
+    employee_id INTEGER REFERENCES Employee(id) ON DELETE CASCADE,
+    task_id varchar REFERENCES Task(id) ON DELETE CASCADE,
     day_of_task Date,
-    planBlock_id varchar REFERENCES PlanBlock(id),
+    planBlock_id varchar(20),
     planner_id INTEGER REFERENCES Planner(id),
     PRIMARY KEY(employee_id,day_of_task)
     
 );
 
 CREATE TABLE Qualification(
-    employee_id INTEGER REFERENCES Employee(id),
-    task_id varchar REFERENCES Task(id),
+    employee_id INTEGER REFERENCES Employee(id) ON DELETE CASCADE,
+    task_id varchar REFERENCES Task(id) ON DELETE CASCADE,
     PRIMARY KEY(employee_id,task_id)
 );
 
 CREATE TABLE Weekday(
     id SERIAL PRIMARY KEY,
-    task_id varchar REFERENCES Task(id),
+    task_id varchar REFERENCES Task(id) ON DELETE CASCADE,
     numero INTEGER NOT NULL
 );
 

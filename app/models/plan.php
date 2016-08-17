@@ -7,6 +7,7 @@ class Plan extends BaseModel{
     
     public function contruct($attributes) {
         parent::__construct($attributes);
+        $this->validators = array();
     }
     
     public static function find(){
@@ -21,8 +22,8 @@ class Plan extends BaseModel{
         
     }
     
-    public static function findAllInPlanblock($planBlock_id){
-        $query = DB::connection()->prepare('SELECT day_of_task FROM Plan WHERE planBlock_id = :planBlock_id ');
+    public static function findDates($planBlock_id){
+        $query = DB::connection()->prepare('SELECT DISTINCT day_of_task FROM Plan WHERE planBlock_id = :planBlock_id ORDER BY day_of_task');
          
         $query->execute(array('planBlock_id' => $planBlock_id));
     
@@ -30,12 +31,12 @@ class Plan extends BaseModel{
         $dates = array();
 
     
-    foreach($rows as $row){
-      
-      $dates[] = new DateTime($row['day_of_task']);
-    }
+        foreach($rows as $row){
 
-    return $dates;
+            $dates[] = strtotime($row['day_of_task']);
+        }
+
+        return $dates;
     }
     
     

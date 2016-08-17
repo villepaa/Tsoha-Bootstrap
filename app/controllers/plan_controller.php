@@ -12,10 +12,10 @@ class Plan_controller extends BaseController{
     
     public static function show($block_id){
          
-        $dates = Plan::findAllInPlanblock($block_id);
+        $emps = PlannedEmployee::findTasks($block_id);
+        $dates = Plan::findDates($block_id);
         
-        
-        View::make('plan/plan.html', array('dates' => $dates));
+        View::make('plan/plan.html', array('emps' => $emps,'dates'=>$dates));
   
     }
     
@@ -28,12 +28,8 @@ class Plan_controller extends BaseController{
         $loppupaiva = strtotime($params['loppupaiva']);
         $paiva = $alkupaiva;
         
-        $block_id = "Viikot:".date("W",$alkupaiva)."-".date("W",$loppupaiva);
-        
-        $block = new Block(array('id' => $block_id));
-        
-        $block->save();
-        
+        $block_id = "Viikot:".date("W",$alkupaiva)."-".date("W",$loppupaiva)."_".date("Y",$alkupaiva);
+              
         $employees = $params['valitut'];
         
         $splitted = array();

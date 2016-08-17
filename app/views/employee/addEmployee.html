@@ -8,24 +8,24 @@
             
               <div class="form-group">
                   <label>Henkilönumero</label>
-                  <input type="text" name="id" class="form-control" >
+                  <input type="text" name="id" class="form-control" value="{{attributes.id}}">
               </div>
 
               <div class="form-group">
                 <label>Etunimi</label>
-                <input type="text" name="etunimi" class="form-control" >
+                <input type="text" name="etunimi" class="form-control" value="{{attributes.etunimi}}" >
               </div>
               <div class="form-group">
                 <label>Sukunimi</label>
-                <input type="text" name="sukunimi" class="form-control" >
+                <input type="text" name="sukunimi" class="form-control" value="{{attributes.sukunimi}}" >
               </div>
               <div class="form-group">
                 <label>Osoite</label>
-                <input type="text" name="osoite" class="form-control" >
+                <input type="text" name="osoite" class="form-control" value="{{attributes.osoite}}" >
               </div>
               <div class="form-group">
                 <label>Puhelin</label>
-                <input type="text" name="puh" class="form-control" >
+                <input type="text" name="puh" class="form-control" value="{{attributes.puh}}" >
               </div>
 
               <div class="form-group">
@@ -34,6 +34,16 @@
               </div>
             
         </form>
+        
+        {% if errors %}
+          <div class="alert alert-danger">
+            <ul>
+              {% for error in errors %}
+                <li>{{error}}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
   
 </div>  
 {% endblock %}

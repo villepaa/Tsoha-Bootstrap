@@ -20,5 +20,5 @@ $(document).ready(function(){
        event.preventDefault();
        $('#valitut option').prop('selected', true);
    });
-  
+
 });

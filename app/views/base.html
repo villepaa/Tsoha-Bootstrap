@@ -40,13 +40,21 @@
           <ul class="nav navbar-nav">
             <!-- Navigaation linkit -->
             <li><a href="{{base_path}}">Etusivu</a></li>
-            <li><a href="{{base_path}}/employees">Työntekijät</a></li>
-            <li><a href="{{base_path}}/tasks">Työvuorot</a></li>
-            <li><a href="{{base_path}}/plan">Suunnitelma</a></li>
+            {% if user_logged_in %}
+                <li><a href="{{base_path}}/employees">Työntekijät</a></li>
+                <li><a href="{{base_path}}/tasks">Työvuorot</a></li>
+                <li><a href="{{base_path}}/plan">Suunnitelma</a></li>
+            {% endif%}    
           </ul>
           
           <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Kirjaudu sisään</a></li>
+                    
+                {% if user_logged_in %}
+                <li><form method="post" action="{{base_path}}/logout"><button type="submit" class="btn-toolbar">Kirjaudu ulos</button></form></li>
+                {% else %}
+                    <li><a class="btn-toolbar" href="{{base_path}}/login">Kirjaudu sisään</a></li>
+                {% endif %} 
+                    
           </ul>
           
         </div>

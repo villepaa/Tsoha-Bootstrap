@@ -19,9 +19,11 @@
       // Lisätään $errors muuttujaan kaikki virheilmoitukset taulukkona
       $errors = array();
 
-      foreach($this->validators as $validator){
+        foreach($this->validators as $validator){
         // Kutsu validointimetodia tässä ja lisää sen palauttamat virheet errors-taulukkoon
-      }
+            $val_error = $this->{$validator}();
+            $errors = array_merge($errors, $val_error);
+        }
 
       return $errors;
     }

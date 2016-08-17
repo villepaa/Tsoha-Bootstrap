@@ -7,8 +7,29 @@ class Task extends BaseModel{
     
     public function construct($attributes){
         parent::__construct($attributes);
+        $this->validators = array('validate_id','validate_alkuaika','validate_loppuaika');
         
     }
+    
+    public function validate_id() {
+        $errors = array();
+        if($this->id == '' || $this->id == null){
+            $errors[] = 'Tunnus ei saa olla tyhjä!';
+        }
+       
+        return $errors;
+
+    }
+    
+    public function validate_alkuaika() {
+        
+    }
+    
+    public function validate_loppuaika() {
+        
+    }
+    
+    
     
     public static function all(){
         $query = DB::connection()->prepare('SELECT * FROM Task');
@@ -61,6 +82,20 @@ class Task extends BaseModel{
     $query->execute(array('id' => $this->id, 'alkuaika' => $this->alkuaika, 'loppuaika' => $this->loppuaika, 'kesto' => $this->kesto, 'tietoja' => $this->tietoja));
     
    
+  }
+  
+  public function update(){
+    $query = DB::connection()->prepare('UPDATE Task SET alkuaika=:alkuaika, loppuaika=:loppuaika, kesto=:kesto,tietoja=:tietoja WHERE id = :id');
+    
+    $query->execute(array('alkuaika' => $this->alkuaika, 'loppuaika' => $this->loppuaika, 'kesto' => $this->kesto, 'tietoja' => $this->tietoja, 'id' => $this->id));
+    
+  } 
+  
+  public function destroy(){
+    $query = DB::connection()->prepare('DELETE FROM Task WHERE id = :id');
+    
+    $query->execute(array('id' => $this->id));
+     
   }
     
     
