@@ -7,9 +7,9 @@ Yleisiä linkkejä:
 * [Linkki dokumentaatiooni](https://github.com/villepaa/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf)
 
 
-* [Käyttäjätunnus](Ben Planner)
+* Käyttäjätunnus : Ben Planner
 
-* [Salasana](setä1)
+* Salasana: setä1
 
 
 
