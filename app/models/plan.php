@@ -10,10 +10,7 @@ class Plan extends BaseModel{
         $this->validators = array();
     }
     
-    public static function find(){
-        
-    }
-    
+       
     public function save(){
         
         $query = DB::connection()->prepare('INSERT INTO Plan (employee_id, task_id, day_of_task, planblock_id,planner_id) VALUES (:employee_id, :task_id, :day_of_task, :planblock_id,:planner_id)');
@@ -37,6 +34,16 @@ class Plan extends BaseModel{
         }
 
         return $dates;
+    }
+    
+    public function update(){
+        
+         
+            $query = DB::connection()->prepare('UPDATE Plan SET task_id=:task_id, planblock_id=:planblock_id, planner_id=:planner_id WHERE employee_id =:employee_id AND day_of_task =:day_of_task');
+
+            $query->execute(array('task_id' => $this->task_id, 'planblock_id' =>$this->planblock, 'planner_id' => $this->planner, 'employee_id'=>$this->employee_id, 'day_of_task' => $this->day ));
+    
+   
     }
     
     

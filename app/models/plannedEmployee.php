@@ -11,7 +11,9 @@ class PlannedEmployee extends Employee{
     
     public static function findTasks($block_id){
         
-        $query = DB::connection()->prepare('SELECT DISTINCT employee_id FROM Plan WHERE planBlock_id = :block_id');
+        $query = DB::connection()->prepare('SELECT DISTINCT employee_id '
+                . 'FROM Plan '
+                . 'WHERE planBlock_id = :block_id');
         $query->execute(array('block_id' => $block_id));
         $rows = $query->fetchAll();
         $plannedEmps = array();
@@ -21,22 +23,20 @@ class PlannedEmployee extends Employee{
             
             $tasks = array();
             $emp_id = $row['employee_id'];
-            $query = DB::connection()->prepare('SELECT task_id, day_of_task FROM Plan WHERE planBlock_id = :block_id AND employee_id = :emp_id ORDER BY day_of_task');
+            $query = DB::connection()->prepare('SELECT task_id, day_of_task '
+                    . 'FROM Plan '
+                    . 'WHERE planBlock_id = :block_id AND employee_id = :emp_id '
+                    . 'ORDER BY day_of_task');
             $query->execute(array('block_id' => $block_id, 'emp_id' => $emp_id));
             $taskRows = $query->fetchAll();
-            foreach($taskRows as $task){
-      
-                $tasks[] = new PlannedTask(array(
-                    'id' => $task['task_id'],
-                    'day' => $task['day_of_task']
-                            
-                ));
+            foreach($taskRows as $taskRow){
+                $task = PlannedTask::find($taskRow['task_id']);
+                $task->day = $taskRow['day_of_task'];
+                $tasks[] = $task;
             }
-            $plannedEmps[] = new PlannedEmployee(array(
-                    'id' => $emp_id,
-                    'tasks' => $tasks
-
-            ));
+            $emp = PlannedEmployee::find($emp_id);
+            $emp->tasks = $tasks;
+            $plannedEmps[] = $emp;
         }
         
         return $plannedEmps;

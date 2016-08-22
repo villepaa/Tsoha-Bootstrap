@@ -14,12 +14,34 @@ class Plan_controller extends BaseController{
          
         $emps = PlannedEmployee::findTasks($block_id);
         $dates = Plan::findDates($block_id);
-        
-        View::make('plan/plan.html', array('emps' => $emps,'dates'=>$dates));
+        $tasksToPlan = Task::all();
+       
+        View::make('plan/plan.html', array('emps' => $emps,'dates'=>$dates, 'tasksToPlan' => $tasksToPlan, 'block'=>$block_id));
   
     }
     
-     public static function store(){
+    public static function update(){
+        $params = $_POST;
+        $attrArray = array_keys($params);
+        $attrString = $attrArray[0];
+        $attrArray = explode('|', $attrString);
+        $paiva = strtotime($attrArray[1]);
+        
+        $plan = new Plan(array(
+                  'employee_id' => $attrArray[0],
+                  'task_id' => $params[$attrString],
+                  'day' => date("Y-m-d",$paiva),
+                  'planblock' => $attrArray[2],
+                  'planner' => $_SESSION['user'] 
+                ));
+       
+        $plan->update();
+        
+        Redirect::to('/plan/' . $attrArray[2], array('message' => 'Päivitetty!'));
+    }
+
+
+    public static function store(){
         $params = $_POST;
         
         
@@ -44,8 +66,9 @@ class Plan_controller extends BaseController{
                   'task_id' => 'VP',
                   'day' => date("Y-m-d",$paiva),
                   'planblock' => $block_id,
-                  'planner' => 1 
+                  'planner' => $_SESSION['user'] 
                 ));
+                
                 $plan->save();
             }    
             $paiva = strtotime('+1 day',$paiva);

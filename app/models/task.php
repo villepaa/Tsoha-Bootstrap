@@ -5,7 +5,7 @@ class Task extends BaseModel{
     
     public $id, $alkuaika, $loppuaika, $kesto, $tietoja;
     
-    public function construct($attributes){
+    public function __construct($attributes){
         parent::__construct($attributes);
         $this->validators = array('validate_id','validate_alkuaika','validate_loppuaika');
         
@@ -22,11 +22,21 @@ class Task extends BaseModel{
     }
     
     public function validate_alkuaika() {
-        
+         $errors = array();
+        if($this->alkuaika == '' || $this->alkuaika == null){
+            $errors[] = 'Alkuaika ei saa olla tyhjä!';
+        }
+       
+        return $errors;
     }
     
     public function validate_loppuaika() {
-        
+         $errors = array();
+        if($this->loppuaika == '' || $this->loppuaika == null){
+            $errors[] = 'Loppuaika ei saa olla tyhjä!';
+        }
+       
+        return $errors;
     }
     
     

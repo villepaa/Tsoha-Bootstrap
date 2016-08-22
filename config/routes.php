@@ -1,5 +1,8 @@
 <?php
 
+    function check_logged_in(){
+        BaseController::check_logged_in();
+    }
     
     $routes->post('/tasks', function(){
         Task_controller::store();
@@ -17,12 +20,16 @@
         User_controller::logout();
     });
     
-     $routes->post('/employees', function(){
+     $routes->post('/employees' ,function(){
          Employee_controller::store();
     });
     
     $routes->post('/plan',function(){
         Plan_controller::store();
+    });
+    
+    $routes->post('/plan/:id',function($id){
+        Plan_controller::update($id);
     });
     
     $routes->post('/login', function() {
@@ -69,7 +76,7 @@
         Employee_controller::create();
     });
     
-    $routes->get('/employees/:id', function($id) {
+    $routes->get('/employees/:id','check_logged_in', function($id) {
         Employee_controller::show($id);
     });
     

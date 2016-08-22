@@ -1,35 +1,74 @@
 {% extends "base.html" %}
 {% block content %}
+    
+        <h1>Työvuorolista: {{block}}</h1>
+        {% if user_logged_in %}
+        <p>Työvuoron lisääminen työntekijälle: 1. Liikuta hiiren osoitin halutun päivämäärän päälle ja paina painiketta. 2. Valitse avautuvasta listasta haluttu työvuoro.<br>
+           HUOM! Vapaapäivä (=VP) näkyy työvuorolistassa tyhjänä ruutuna.
+           
+        </p>
+        
+        {% else %}    
+            <p><a href="{{base_path}}/login">Kirjaudu sisään</a> muokataksesi tietoja.</p>
+        {% endif %}
+            <table class="table table-striped table-bordered">
 
-    <h1>Työvuorolista</h1>
+                <thead>
+                    <tr>
+                        <th><label>PVM /</label> <br> <label>HENKILÖ</label></th>
+                        {% for date in dates  %}
+                            <th>{{date|date('d.m')}}</th>
+                        {% endfor %}
+                    </tr>
 
-    <table class="table table-striped table-bordered">
+                </thead> 
 
-        <thead>
-            <tr>
-                <th><label>PVM /</label> <br> <label>HENKILÖ</label></th>
-                {% for date in dates  %}
-                    <th>{{date|date('d.m')}}</th>
-                {% endfor %}
-            </tr>
+                <tbody>
+                    {% for emp in emps  %}
+                    <tr>
 
-        </thead> 
+                       <td>{{emp.etunimi}} {{emp.sukunimi}}</td>
+                        {% for task in emp.tasks  %}
+                            {% if task.id == "VP" %}
+                                <td class="suunniteltava" id="VP_{{emp.id}}_{{task.day}}">
+                                    {% if user_logged_in %}
+                                        <div class="dropdown suunnittelu" id="DVP_{{emp.id}}_{{task.day}}">   
+                                            <button class="btn-sm" type="button" data-toggle="dropdown"></button>
+                                            <ul class="dropdown-menu">
+                                                {% for t in tasksToPlan%}
+                                                    <form method="post" action="{{base_path}}/plan/:id">
+                                                        <li><input type="submit"  name="{{emp.id}}|{{task.day}}|{{block}}" class="btn-sm " value="{{t.id}}"></input></li>
+                                                    </form>    
+                                                {% endfor %}
+                                            </ul>
+                                        </div>   
+                                    {% endif %}
+                                </td>
+                            {% else %}
+                                <td class="suunniteltava" id="{{emp.id}}_{{task.day}}">
+                                    {{task.id}}
+                                    {% if user_logged_in %}
+                                        <div class="dropdown suunnittelu" id="D{{emp.id}}_{{task.day}}">   
+                                            <button class="btn-sm" type="button" data-toggle="dropdown"></button>
+                                            <ul class="dropdown-menu">
+                                                {% for t in tasksToPlan%}
+                                                    <form method="post" action="{{base_path}}/plan/:id">
+                                                        <li><input type="submit"  name="{{emp.id}}|{{task.day}}|{{block}}" class="btn-sm" value="{{t.id}}"></input></li>
+                                                    </form>    
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    {% endif %}
+                                </td>        
+                            {% endif %}          
+                        {% endfor %}
+                        </tr>   
+                    {% endfor %}    
 
-        <tbody>
-            {% for emp in emps  %}
-            <tr>
-
-               <td>{{emp.id}}</td>
-                {% for task in emp.tasks  %}
-                    <td>{{task.id}}</td>
-                {% endfor %}
-
-            </tr>   
-            {% endfor %}    
-
-        </tbody>
+                </tbody>
 
 
-    </table>
+            </table>
+        
 
 {% endblock %}

@@ -1,12 +1,5 @@
 $(document).ready(function(){
-//  
-//   $('form.form_alkupaiva').datetimepicker({
-//        format: "dd MM yyyy"
-//   });
-//   
-//   $('form.form_loppupaiva').datetimepicker({
-//        format: "dd MM yyyy"
-//   });
+
    
    $('#naytaLomake').click(function(){
        $('.lisays').css('visibility','visible');
@@ -19,6 +12,17 @@ $(document).ready(function(){
    $('#valitseTyontekijat').click(function(){
        event.preventDefault();
        $('#valitut option').prop('selected', true);
+   });
+   
+   $('.suunniteltava').hover(function(){
+      var id = "D"+this.id;
+      
+      $('#'+id).show(); 
+   });
+   
+   $('.suunniteltava').mouseleave(function(){
+      var id = "D"+this.id;
+      $('#'+id).hide(); 
    });
 
 });

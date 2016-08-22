@@ -38,6 +38,7 @@ class Task_controller extends BaseController{
           'tietoja' => $params['tietoja'] 
         );
         $task = new Task($attr);
+        
         $errors = $task->errors();
         if(count($errors) == 0){
             $task->save();
