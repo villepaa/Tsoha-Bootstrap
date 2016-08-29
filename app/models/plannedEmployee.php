@@ -1,5 +1,6 @@
 <?php
 
+// Suunnitelmasta löytyvä työntekijä, jolle lisätty työvuoroja edustava taulukko
 
 class PlannedEmployee extends Employee{
     

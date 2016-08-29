@@ -1,5 +1,6 @@
 <?php
 
+// Tämä kontrolleri hoitaa ohjelman käyttäjään liittyvät tehtävät
 
 class User_controller extends BaseController{
    

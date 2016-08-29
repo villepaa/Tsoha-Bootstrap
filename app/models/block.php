@@ -1,5 +1,7 @@
 <?php
 
+// Tämä hoitaa Planblockien hallinnoinnin. Sen ainut funktio hakee kaikki suunnitelmassa olevat blockit
+
 class Block extends BaseModel{
     
     public $id;

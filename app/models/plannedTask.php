@@ -1,5 +1,7 @@
 <?php
 
+// Suunnitelmasta löytyvä työvuoro, jolle lisätty päivämäärä
+
 
 class PlannedTask extends Task{
     

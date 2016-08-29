@@ -1,5 +1,6 @@
 <?php
 
+// Tämä kontrolleri hoitaa työvuoroihin liittyvät tehtävät
 
 class Task_controller extends BaseController{
     

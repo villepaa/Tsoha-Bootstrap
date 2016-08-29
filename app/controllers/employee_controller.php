@@ -1,6 +1,6 @@
 <?php
 
-
+// Tämä kontrolleri hoitaa työntekijään liittyvät tehtävät
 
 class Employee_controller extends BaseController{
     

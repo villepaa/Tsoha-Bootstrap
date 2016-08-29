@@ -1,7 +1,9 @@
 <?php
-
+// Tässä kontrollerissa käsitellään suunnitelman sivuun liittyviä asioita
 
 class Plan_controller extends BaseController{
+    
+//    Seuraava funktio hakee Planblockit ja työntekijät ja valmistelee suunnitelman etusivun
     
     public static function index(){
         $blocks = Block::all();
@@ -9,6 +11,8 @@ class Plan_controller extends BaseController{
         
         View::make('plan/plan_front.html', array('blocks' => $blocks, 'emps' => $emps));
     }
+
+//  Tämä funktio hakee tiedot suunnitelman näyttämistä varten ja renderöi ko. näkymän  
     
     public static function show($block_id){
          
@@ -19,6 +23,8 @@ class Plan_controller extends BaseController{
         View::make('plan/plan.html', array('emps' => $emps,'dates'=>$dates, 'tasksToPlan' => $tasksToPlan, 'block'=>$block_id));
   
     }
+    
+    // Tämä päivittää suunnitelman kun siihen tehdään muutoksia
     
     public static function update(){
         $params = $_POST;
@@ -40,6 +46,8 @@ class Plan_controller extends BaseController{
         Redirect::to('/plan/' . $attrArray[2], array('message' => 'Päivitetty!'));
     }
 
+    
+    // Tämä tallentaa uuden suunnitelman ja alustaa sen tyhjillä listoilla
 
     public static function store(){
         $params = $_POST;
