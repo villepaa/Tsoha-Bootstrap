@@ -3,7 +3,7 @@
 
 class Employee extends BaseModel{
     
-    public $id, $etunimi, $sukunimi, $osoite, $puh;
+    public $id, $etunimi, $sukunimi, $osoite, $puh, $patevyydet;
   
     public function __construct($attributes){
        parent::__construct($attributes);
@@ -34,6 +34,7 @@ class Employee extends BaseModel{
         if(strlen($this->id) > 6){
             $errors[] = 'Henkilönumeron maksimi pituus on 6 numeroa!';
         }
+        
         return $errors;
     }
     
@@ -85,14 +86,19 @@ class Employee extends BaseModel{
     $row = $query->fetch();
 
     if($row){
+      $query = DB::connection()->prepare('SELECT task_id FROM Qualification WHERE employee_id = :employee_id');     
+      $query->execute(array('employee_id' => $row['id']));
+      $rows = $query->fetch();
+      
       $employee = new Employee(array(
         'id' => $row['id'],
         'etunimi' => $row['etunimi'],
         'sukunimi' => $row['sukunimi'],
         'osoite' => $row['osoite'],
-        'puh' => $row['puh']
+        'puh' => $row['puh'],
+        'patevyydet' => $rows  
       ));
-
+      
       return $employee;
     }
 
@@ -105,7 +111,11 @@ class Employee extends BaseModel{
     
     $query->execute(array('id' => $this->id, 'etunimi' => $this->etunimi, 'sukunimi' => $this->sukunimi, 'osoite' => $this->osoite, 'puh' => $this->puh));
     
-   
+    foreach($this->patevyydet as $p){
+      $query = DB::connection()->prepare('INSERT INTO Qualification (employee_id,task_id) VALUES (:employee_id, :task_id)');  
+    
+      $query->execute(array('employee_id' => $this->id, 'task_id' => $p));
+    }    
   }
 
   public function update(){

@@ -35,12 +35,19 @@ class Task_controller extends BaseController{
           'id' => $params['id'],
           'alkuaika' => $params['alkuaika'],
           'loppuaika' => $params['loppuaika'],
-          'kesto' => $params['kesto'],
           'tietoja' => $params['tietoja'] 
         );
+        
         $task = new Task($attr);
         
+        $task->kesto = gmdate('H:i',strtotime($task->loppuaika) - strtotime($task->alkuaika));
         $errors = $task->errors();
+        
+        $testTask = $task::find($task->id);
+        if($testTask != NULL){
+            $errors[] = 'Tällä tunnuksella löytyy jo työvuoro!';
+        }
+        
         if(count($errors) == 0){
             $task->save();
             Redirect::to('/tasks/' . $task->id, array('message' => 'Työvuoro on lisätty!'));
@@ -58,13 +65,13 @@ class Task_controller extends BaseController{
           'id' => $id,
           'alkuaika' => $params['alkuaika'],
           'loppuaika' => $params['loppuaika'],
-          'kesto' => $params['kesto'],
           'tietoja' => $params['tietoja'],
           
         );
 
         
         $task = new Task($attributes);
+        $task->kesto = gmdate('H:i',strtotime($task->loppuaika) - strtotime($task->alkuaika));
         $errors = $task->errors();
         if(count($errors) == 0){
             $task->update();

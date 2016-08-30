@@ -27,6 +27,18 @@
                 <label>Puhelin</label>
                 <input type="text" name="puh" class="form-control" value="{{attributes.puh}}" >
               </div>
+            
+              <div class="form-group">
+                  
+                  <label>Pätevyydet</label><label class="col-xs-offset-1" ><input type="checkbox" id="kaikki">Valitse kaikki</label><br>
+                    
+                  {% for task in tasks  %}
+                      {% if task.id != "VP" %}
+                          <label class="checkbox-inline" id="kaikkiPatevyydet"><input type="checkbox" name="patevyydet[]" value="{{task.id}}">{{task.id}}</label>
+                      {% endif %}    
+                  {% endfor  %}
+                   
+              </div>
 
               <div class="form-group">
                 <button type="submit" class="btn btn-primary">Tallenna</button>

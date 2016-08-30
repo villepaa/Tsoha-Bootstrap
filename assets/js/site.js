@@ -24,5 +24,14 @@ $(document).ready(function(){
       var id = "D"+this.id;
       $('#'+id).hide(); 
    });
+   
+   $('#kaikki').change(function(){
+      var check = this.checked;
+      if(check){
+          $('#kaikkiPatevyydet input').prop('checked',true);
+      }else{
+          $('#kaikkiPatevyydet input').prop('checked',false);
+      }
+   });
 
 });

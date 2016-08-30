@@ -15,38 +15,48 @@ class Employee_controller extends BaseController{
     public static function show($id){
         
         $employee = Employee::find($id);
-        
-        View::make('employee/editEmployee.html', array('emp' => $employee));
+        $tasks = Task::all();
+       
+        View::make('employee/editEmployee.html', array('emp' => $employee, 'tasks' => $tasks));
         
     }
     
     public static function create(){
-      
-       View::make('employee/addEmployee.html');     
+       $tasks = Task::all();
+       View::make('employee/addEmployee.html',array('tasks' => $tasks));     
     }
     
    
     public static function store(){
         $params = $_POST;
-
+//        Kint::dump($params['patevyydet']);
         $attr = array(
           'id' => $params['id'],
           'etunimi' => $params['etunimi'],
           'sukunimi' => $params['sukunimi'],
           'osoite' => $params['osoite'],
-          'puh' => $params['puh'] 
+          'puh' => $params['puh'],
+          'patevyydet' => $params['patevyydet']  
         );
         
         $emp = new Employee($attr);
+//        Kint:dump($emp);
         $errors = $emp->errors();
+        
+        $testEmp = $emp::find($emp->id);
+        if($testEmp != NULL){
+            $errors[] = 'Tällä henkilönumerolla löytyy jo henkilö';
+        }
+        
         if(count($errors) == 0){
             
             $emp->save();
             Redirect::to('/employees/' . $emp->id, array('message' => 'Työntekijä on lisätty!'));
             
         }else{
-            
-            View::make('employee/addEmployee.html', array('errors' => $errors, 'attributes' => $attr));
+            $tasks = Task::all();
+
+            View::make('employee/addEmployee.html', array('errors' => $errors, 'attributes' => $attr, 'tasks' => $tasks));
         }
         
         

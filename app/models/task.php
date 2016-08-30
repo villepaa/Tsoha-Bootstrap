@@ -16,6 +16,7 @@ class Task extends BaseModel{
         if($this->id == '' || $this->id == null){
             $errors[] = 'Tunnus ei saa olla tyhjä!';
         }
+        
        
         return $errors;
 
@@ -26,7 +27,7 @@ class Task extends BaseModel{
         if($this->alkuaika == '' || $this->alkuaika == null){
             $errors[] = 'Alkuaika ei saa olla tyhjä!';
         }
-       
+        
         return $errors;
     }
     

@@ -48,15 +48,15 @@
         HelloWorldController::sandbox();
     });
 
-    $routes->get('/tasks', function() {
+    $routes->get('/tasks', 'check_logged_in',function() {
         Task_controller::index();
     });
     
-    $routes->get('/tasks/new', function() {
+    $routes->get('/tasks/new', 'check_logged_in',function() {
         Task_controller::create();
     });
     
-     $routes->get('/tasks/:id', function($id) {
+     $routes->get('/tasks/:id', 'check_logged_in',function($id) {
         Task_controller::show($id);
     });
 
@@ -72,7 +72,7 @@
         Employee_controller::index();
     });
     
-    $routes->get('/employees/new', function() {
+    $routes->get('/employees/new', 'check_logged_in',function() {
         Employee_controller::create();
     });
     

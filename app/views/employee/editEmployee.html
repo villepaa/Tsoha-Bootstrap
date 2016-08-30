@@ -31,6 +31,28 @@
                 <label>Puhelin</label>
                 <input type="text" name="puh" class="form-control" value="{{emp.puh}}">
             </div>
+            
+             <div class="form-group">
+                  
+                  <label>Pätevyydet</label><label class="col-xs-offset-1" ><input type="checkbox" id="kaikki">Valitse kaikki</label><br>
+                  {% for patevyys in emp.patevyydet  %}
+                                
+                        <label class="checkbox-inline" id="kaikkiPatevyydet"><input type="checkbox" name="patevyydet[]" value="{{patevyys}}" checked>{{patevyys}}</label>
+                                
+                  {% endfor %}  
+                  {% for task in tasks  %}
+                      {% if task.id != "VP" %}
+                            {% for patevyys in emp.patevyydet  %}
+                                {% if task.id == patevyys %}
+                                    <label class="checkbox-inline" id="kaikkiPatevyydet"><input type="checkbox" name="patevyydet[]" value="{{patevyys}}" checked>{{patevyys}}</label>
+                                {% else %}        
+                                    <label class="checkbox-inline" id="kaikkiPatevyydet"><input type="checkbox" name="patevyydet[]" value="{{task.id}}">{{task.id}}</label>
+                                {% endif %}    
+                            {% endfor %}
+                      {% endif %}    
+                  {% endfor  %}
+                   
+              </div>
 
             {% if message %}
                 <div class="form-group">
