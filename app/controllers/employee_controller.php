@@ -15,6 +15,7 @@ class Employee_controller extends BaseController{
     public static function show($id){
         
         $employee = Employee::find($id);
+//        Kint::dump($employee);
         $tasks = Task::all();
        
         View::make('employee/editEmployee.html', array('emp' => $employee, 'tasks' => $tasks));
@@ -29,21 +30,27 @@ class Employee_controller extends BaseController{
    
     public static function store(){
         $params = $_POST;
-//        Kint::dump($params['patevyydet']);
+        
+        if(array_key_exists('patevyydet',$params)){
+            $qualification = $params['patevyydet'];
+        }else{
+            $qualification = array();
+        } 
         $attr = array(
           'id' => $params['id'],
           'etunimi' => $params['etunimi'],
           'sukunimi' => $params['sukunimi'],
           'osoite' => $params['osoite'],
           'puh' => $params['puh'],
-          'patevyydet' => $params['patevyydet']  
+          'patevyydet' => $qualification
         );
-        
+               
         $emp = new Employee($attr);
-//        Kint:dump($emp);
+
         $errors = $emp->errors();
         
         $testEmp = $emp::find($emp->id);
+        
         if($testEmp != NULL){
             $errors[] = 'Tällä henkilönumerolla löytyy jo henkilö';
         }
@@ -51,6 +58,7 @@ class Employee_controller extends BaseController{
         if(count($errors) == 0){
             
             $emp->save();
+           
             Redirect::to('/employees/' . $emp->id, array('message' => 'Työntekijä on lisätty!'));
             
         }else{
@@ -66,14 +74,19 @@ class Employee_controller extends BaseController{
     
     public static function update($id){
         $params = $_POST;
-
+        if(array_key_exists('patevyydet',$params)){
+            $qualification = $params['patevyydet'];
+        }else{
+            $qualification = array();
+        } 
+        
         $attributes = array(
           'id' => $id,
           'etunimi' => $params['etunimi'],
           'sukunimi' => $params['sukunimi'],
           'osoite' => $params['osoite'],
           'puh' => $params['puh'],
-          
+          'patevyydet' => $qualification
         );
 
         
@@ -83,7 +96,7 @@ class Employee_controller extends BaseController{
         if(count($errors) == 0){
             
             $employee->update();
-
+                       
             Redirect::to('/employees/' . $employee->id, array('message' => 'Työntekijän tietoja on muokattu!'));
             
         }else{

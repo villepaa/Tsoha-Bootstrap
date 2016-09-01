@@ -13,6 +13,12 @@ CREATE TABLE Planner(
     password varchar(50) NOT NULL
 );
 
+CREATE TABLE Block(
+    id varchar(20) PRIMARY KEY NOT NULL,
+    alkupaiva Date,
+    loppupaiva Date
+);
+
 CREATE TABLE Task(
     id varchar(10) PRIMARY KEY NOT NULL,
     alkuaika Time,
@@ -25,7 +31,7 @@ CREATE TABLE Plan(
     employee_id INTEGER REFERENCES Employee(id) ON DELETE CASCADE,
     task_id varchar REFERENCES Task(id) ON DELETE CASCADE,
     day_of_task Date,
-    planBlock_id varchar(20),
+    planBlock_id varchar(20) REFERENCES Block(id) ON DELETE CASCADE,
     planner_id INTEGER REFERENCES Planner(id),
     PRIMARY KEY(employee_id,day_of_task)
     
@@ -37,11 +43,7 @@ CREATE TABLE Qualification(
     PRIMARY KEY(employee_id,task_id)
 );
 
-CREATE TABLE Weekday(
-    id SERIAL PRIMARY KEY,
-    task_id varchar REFERENCES Task(id) ON DELETE CASCADE,
-    numero INTEGER NOT NULL
-);
+
 
 
 

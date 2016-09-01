@@ -1,65 +1,85 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h1>Valitse suunnitelma tai luo uusi</h1>
+<h1>Valitse valmis suunnitelma tai luo uusi</h1>
     
 <div class="row">
     <div class="col-md-4">
+        <h2>Selaa vanhoja:</h2>
         <div class="dropdown">   
 
              <button class="btn btn-lg dropdown-toggle" type="button" data-toggle="dropdown" >
-                Selaa vanhoja
+                Selaa
                 <span class="caret"></span>
             </button>
             
                 <ul class="dropdown-menu">
                     {% for block in blocks%}
-                        <li><a class="dropdown-item" href="{{base_path}}/plan/{{block}}">{{block}}</a></li>
+                        <li><a class="dropdown-item" href="{{base_path}}/plan/{{block.id}}">{{block.id}}</a></li>
                     {% endfor %}
                 </ul>
             
 
-            <button class="btn btn-lg" id="naytaLomake" >Lisää uusi</button>
+            
         </div>
     </div>    
-    <div class="col-md-4 lisays">
+    <div class="col-md-6">
+        <h2>Lisää uusi:</h2>
         
-        <h3>Valitse työntekijät:</h3>
         
         <form method="post" action="{{base_path}}/plan">
-            <div class="form-group ">
-                <select multiple name="valitut[]" id="valitut">
-                    {% for emp in emps%}
-                        <option>{{emp.id}}-{{emp.etunimi}} {{emp.sukunimi}}</option>
-                    {% endfor %}
-                </select>
+             
+            <div class="col-md-6">
+                <h3>Valitse työntekijät:</h3>
+                <div class="form-group ">
+                    <select multiple name="valitut[]" id="valitut">
+                        {% for emp in emps%}
+                            <option>{{emp.id}}-{{emp.etunimi}} {{emp.sukunimi}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="button" class="btn btn-sm" id="valitseTyontekijat">Valitse kaikki</button>
             </div>
-            
-            <button type="button" class="btn-lg" id="valitseTyontekijat">Valitse kaikki</button>
-            <h3>Valitse alku- ja loppupäivämäärät:</h3>
-            
-            <div class="form-group">
-                <label>Alkupäivä</label>
-                <div class="input-group date form_alkupaiva">    
-                     <input type="date" name="alkupaiva" class="form-control">
-                     
+            <div class="col-md-6">    
+                <h3>Valitse alku- ja loppupäivämäärät:</h3>
+
+                {% set lastBlock = blocks|last %}
+
+                <div class="form-group">
+                    <label>Alkupäivä</label>
+                    <div class="input-group date form_alkupaiva">    
+                         <input type="date" name="alkupaiva" class="form-control" min="{{lastBlock.loppupaiva}}">
+
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Loppupäivä</label>
+                    <div class="input-group date form_loppupaiva">
+
+                         <input type="date" name="loppupaiva" class="form-control">
+
+                    </div>     
+                </div>
+
+                {% if errors %}
+                      <div class="alert alert-danger">
+                        <ul>
+                          {% for error in errors %}
+                            <li>{{error}}</li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <button type="submit" class="btn-lg btn-success">TALLENNA</button>
 
                 </div>
-            </div>
-            <div class="form-group">
-                <label>Loppupäivä</label>
-                <div class="input-group date form_loppupaiva">
-                    
-                     <input type="date" name="loppupaiva" class="form-control">
-                     
-                </div>     
+                
             </div>
             
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Ok</button>
-                <a href="{{base_path}}/plan" class="btn btn-danger" id="piilotaLomake">Peruuta</a>
-              </div>
-
         </form>
     </div>
     

@@ -8,59 +8,98 @@
             <h1>Muokkaa työtekijän tietoja</h1>
         {% endif %}  
 
-        <form method="post" action="{{base_path}}/employees/{{emp.id}}">
-
-            <div class="form-group">
-                <label>Henkilönumero</label>
-                <input type="text" name="id" class="form-control" value="{{emp.id}}" disabled>
-            </div>
-
-            <div class="form-group">
-                <label>Etunimi</label>
-                <input type="text" name="etunimi" class="form-control" value="{{emp.etunimi}}">
-            </div>
-            <div class="form-group">
-                <label>Sukunimi</label>
-                <input type="text" name="sukunimi" class="form-control" value="{{emp.sukunimi}}">
-            </div>
-            <div class="form-group">
-                <label>Osoite</label>
-                <input type="text" name="osoite" class="form-control" value="{{emp.osoite}}">
-            </div>
-            <div class="form-group">
-                <label>Puhelin</label>
-                <input type="text" name="puh" class="form-control" value="{{emp.puh}}">
-            </div>
+            {% if message %}
             
-             <div class="form-group">
+                <form method="post" action="{{base_path}}/employees/{{emp.id}}">
+
+                <div class="form-group">
+                    <label>Henkilönumero</label>
+                    <input type="text" name="id" class="form-control" value="{{emp.id}}" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label>Etunimi</label>
+                    <input type="text" name="etunimi" class="form-control" value="{{emp.etunimi}}" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Sukunimi</label>
+                    <input type="text" name="sukunimi" class="form-control" value="{{emp.sukunimi}}" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Osoite</label>
+                    <input type="text" name="osoite" class="form-control" value="{{emp.osoite}}" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Puhelin</label>
+                    <input type="text" name="puh" class="form-control" value="{{emp.puh}}" disabled>
+                </div>
+
+                 <div class="form-group">
+
+                      <label>Pätevyydet</label><label class="col-xs-offset-1" ><input type="checkbox" id="kaikki" disabled>Valitse kaikki</label><br>
+
+                      {% for task in tasks  %}
+                          {% if task.id != "VP" %}
+                                {% if emp.patevyydet[task.id] %}
+                                        <label class="checkbox-inline" id="kaikkiPatevyydet"><input type="checkbox" name="patevyydet[]" value="{{task.id}}" checked disabled>{{task.id}}</label>
+                                {% else %}        
+                                        <label class="checkbox-inline" id="kaikkiPatevyydet"><input type="checkbox" name="patevyydet[]" value="{{task.id}}" disabled>{{task.id}}</label>
+                                {% endif %}    
+
+                          {% endif %}    
+                      {% endfor  %}
+
+                  </div>
+            
+                <div class="form-group">
+
+                    <a href="{{base_path}}/employees" class="btn btn-success">OK</a>
+                    <a href="{{base_path}}/employees/{{emp.id}}" class="btn btn-primary">MUOKKAA</a>
+                </div>
+
+            {% else %}
+            
+                <form method="post" action="{{base_path}}/employees/{{emp.id}}">
+
+                <div class="form-group">
+                    <label>Henkilönumero</label>
+                    <input type="text" name="id" class="form-control" value="{{emp.id}}" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label>Etunimi</label>
+                    <input type="text" name="etunimi" class="form-control" value="{{emp.etunimi}}">
+                </div>
+                <div class="form-group">
+                    <label>Sukunimi</label>
+                    <input type="text" name="sukunimi" class="form-control" value="{{emp.sukunimi}}">
+                </div>
+                <div class="form-group">
+                    <label>Osoite</label>
+                    <input type="text" name="osoite" class="form-control" value="{{emp.osoite}}">
+                </div>
+                <div class="form-group">
+                    <label>Puhelin</label>
+                    <input type="text" name="puh" class="form-control" value="{{emp.puh}}">
+                </div>
+
+                 <div class="form-group">
                   
                   <label>Pätevyydet</label><label class="col-xs-offset-1" ><input type="checkbox" id="kaikki">Valitse kaikki</label><br>
-                  {% for patevyys in emp.patevyydet  %}
-                                
-                        <label class="checkbox-inline" id="kaikkiPatevyydet"><input type="checkbox" name="patevyydet[]" value="{{patevyys}}" checked>{{patevyys}}</label>
-                                
-                  {% endfor %}  
+                    
                   {% for task in tasks  %}
                       {% if task.id != "VP" %}
-                            {% for patevyys in emp.patevyydet  %}
-                                {% if task.id == patevyys %}
-                                    <label class="checkbox-inline" id="kaikkiPatevyydet"><input type="checkbox" name="patevyydet[]" value="{{patevyys}}" checked>{{patevyys}}</label>
-                                {% else %}        
+                            {% if emp.patevyydet[task.id] %}
+                                    <label class="checkbox-inline" id="kaikkiPatevyydet"><input type="checkbox" name="patevyydet[]" value="{{task.id}}" checked>{{task.id}}</label>
+                            {% else %}        
                                     <label class="checkbox-inline" id="kaikkiPatevyydet"><input type="checkbox" name="patevyydet[]" value="{{task.id}}">{{task.id}}</label>
-                                {% endif %}    
-                            {% endfor %}
+                            {% endif %}    
+                            
                       {% endif %}    
                   {% endfor  %}
                    
               </div>
-
-            {% if message %}
-                <div class="form-group">
-
-                    <a href="{{base_path}}/employees" class="btn btn-success">OK</a>
-                </div>
-
-            {% else %}
+            
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Tallenna</button>
                     <a href="{{base_path}}/employees" class="btn btn-danger">Peruuta</a>

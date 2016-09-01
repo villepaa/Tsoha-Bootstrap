@@ -18,9 +18,9 @@ class Plan_controller extends BaseController{
          
         $emps = PlannedEmployee::findTasks($block_id);
         $dates = Plan::findDates($block_id);
-        $tasksToPlan = Task::all();
+        
        
-        View::make('plan/plan.html', array('emps' => $emps,'dates'=>$dates, 'tasksToPlan' => $tasksToPlan, 'block'=>$block_id));
+        View::make('plan/plan.html', array('emps' => $emps,'dates'=>$dates, 'block'=>$block_id));
   
     }
     
@@ -28,8 +28,8 @@ class Plan_controller extends BaseController{
     
     public static function update(){
         $params = $_POST;
-        $attrArray = array_keys($params);
-        $attrString = $attrArray[0];
+        $attrArray_apu = array_keys($params);
+        $attrString = $attrArray_apu[0];
         $attrArray = explode('|', $attrString);
         $paiva = strtotime($attrArray[1]);
         
@@ -59,29 +59,46 @@ class Plan_controller extends BaseController{
         $paiva = $alkupaiva;
         
         $block_id = "Viikot:".date("W",$alkupaiva)."-".date("W",$loppupaiva)."_".date("Y",$alkupaiva);
-              
-        $employees = $params['valitut'];
         
-        $splitted = array();
+        $block = new Block(array(
+                'id' => $block_id,
+                'alkupaiva' => $params['alkupaiva'],
+                'loppupaiva' => $params['loppupaiva']
+            ));
+        $errors = $block->errors();
+        if(count($errors) == 0){
+            $block->save();
+            $employees = $params['valitut'];
         
-        while($paiva <= $loppupaiva){
-            foreach($employees as $emp){
-                $splitted = explode("-", $emp);
-                $emp_id = $splitted[0];
-                
-                $plan = new Plan(array(
-                  'employee_id' => $emp_id,
-                  'task_id' => 'VP',
-                  'day' => date("Y-m-d",$paiva),
-                  'planblock' => $block_id,
-                  'planner' => $_SESSION['user'] 
-                ));
-                
-                $plan->save();
-            }    
-            $paiva = strtotime('+1 day',$paiva);
+            $splitted = array();
+
+            while($paiva <= $loppupaiva){
+                foreach($employees as $emp){
+                    $splitted = explode("-", $emp);
+                    $emp_id = $splitted[0];
+
+                    $plan = new Plan(array(
+                      'employee_id' => $emp_id,
+                      'task_id' => 'VP',
+                      'day' => date("Y-m-d",$paiva),
+                      'planblock' => $block_id,
+                      'planner' => $_SESSION['user'] 
+                    ));
+
+                    $plan->save();
+                }    
+                $paiva = strtotime('+1 day',$paiva);
+            }
+            Redirect::to('/plan/' . $block_id, array('message' => 'Suunnitelma on luotu!'));
+        }else{
+            $blocks = Block::all();
+            $emps = Employee::all();
+        
+            View::make('plan/plan_front.html', array('blocks' => $blocks, 'emps' => $emps, 'errors' => $errors));
         }
-        Redirect::to('/plan/' . $block_id, array('message' => 'Suunnitelma on luotu!'));
+            
+        
+        
     }
     
     

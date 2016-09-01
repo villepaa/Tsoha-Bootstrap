@@ -1,13 +1,7 @@
 $(document).ready(function(){
 
    
-   $('#naytaLomake').click(function(){
-       $('.lisays').css('visibility','visible');
-   });
-   
-    $('#piilotaLomake').click(function(){
-       $('.lisays').css('visibility','hidden');
-   });
+  
    
    $('#valitseTyontekijat').click(function(){
        event.preventDefault();
